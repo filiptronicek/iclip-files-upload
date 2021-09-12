@@ -29,7 +29,7 @@ export default function HomePage() {
     );
     const { url, fields } = await res.json();
     const formData = new FormData();
-    Object.entries({ ...fields, file }).forEach(([key, value]) => {
+    Object.entries({ ...fields, file }).forEach(([key, value] : [string, string | Blob]) => {
       formData.append(key, value);
     });
     const upload = await fetch(url, {
@@ -49,23 +49,23 @@ export default function HomePage() {
   };
 
   // reset counter and append file to gallery when file is dropped
-  const dropHandler = (e: Event) => {
+  const dropHandler = (e: any) => {
     e.preventDefault();
     uploadFile(e);
     setShowOverlay(false);
   };
 
   // only react to actual files being dragged
-  const dragEnterHandler = (e: Event) => {
+  const dragEnterHandler = (e: any) => {
     e.preventDefault();
     setShowOverlay(true);
   };
 
-  const dragLeaveHandler = (_e: Event) => {
+  const dragLeaveHandler = (_e: any) => {
     setShowOverlay(false);
   };
 
-  const dragOverHandler = (e: Event) => {
+  const dragOverHandler = (e: any) => {
     e.preventDefault();
     setShowOverlay(true);
   };

@@ -1,5 +1,5 @@
 import aws from "aws-sdk";
-import { v4 as uuidv4 } from "uuid";
+import getUserId from "../../lib/randID";
 import { getSession } from "next-auth/react"
 
 export default async function handler(req, res) {
@@ -16,11 +16,10 @@ export default async function handler(req, res) {
   const ep = new aws.Endpoint(`s3.${process.env.REGION}.wasabisys.com`);
   const s3 = new aws.S3({ endpoint: ep });
   const fileExt = file.split(".").pop();
-  console.log(`${uuidv4()}.${fileExt}`);
   const post = s3.createPresignedPost({
     Bucket: process.env.BUCKET_NAME,
     Fields: {
-      key: `${uuidv4()}.${fileExt}`,
+      key: `${getUserId(7)}.${fileExt}`,
       "Content-Type": fileType,
       //"Content-Disposition": `attachment; filename="${file}"` // TODO: preserve filenames
     },
