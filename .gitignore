@@ -4,3 +4,4 @@ cdk.out
 .next
 .env.local
 .DS_Store
+.vercel
