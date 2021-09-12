@@ -1,5 +1,6 @@
 import "tailwindcss/tailwind.css";
 import { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Upload() {
   const [showOverlay, setShowOverlay] = useState(false);
@@ -23,9 +24,9 @@ export default function Upload() {
     });
 
     if (upload.ok) {
-      console.log("Uploaded successfully!");
+      toast.success("File uploaded successfully!");
     } else {
-      console.error("Upload failed.");
+      toast.error("Upload failed.");
     }
   };
 
@@ -59,6 +60,7 @@ export default function Upload() {
 
   return (
     <main className="flex flex-col justify-center items-center h-screen">
+      <Toaster />
       <p className="text-4xl">Interclip files</p>
       <div className="bg-gray-500 h-1/2 w-screen sm:px-8 md:px-16 sm:py-8">
         <main className="container mx-auto max-w-screen-lg h-full">
