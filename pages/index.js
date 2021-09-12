@@ -78,12 +78,13 @@ export default function HomePage() {
 
   return (
     <main className="flex flex-col justify-between items-center h-screen bg-[#157EFB] text-white">
-      <header className="flex justify-between items-center w-screen max-w-screen gap-4">
+      <header className="flex justify-between items-center w-screen max-w-screen gap-4 px-4 mt-4">
         <h1 className="text-4xl font-bold">Interclip files</h1>
         {session ? (
           <>
             <div className="flex flex-row mx-4 gap-4 items-center justify-center">
               <Tooltip
+                position="bottom"
                 text={`Signed in as: ${
                   session.user.name || session.user.email
                 }`}
@@ -96,10 +97,9 @@ export default function HomePage() {
                 />
               </Tooltip>
               <Button
-                color="warning"
+                color="success"
                 className="bg-transparent font-semibold hover:text-white py-2 px-4 border hover:border-transparent rounded"
                 onClick={() => signOut()}
-                bordered
                 auto
               >
                 Log out
@@ -107,12 +107,14 @@ export default function HomePage() {
             </div>
           </>
         ) : (
-          <button
+          <Button
+            color="success"
+            auto
             className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
             onClick={() => signIn()}
           >
-            Sign in
-          </button>
+            Log in
+          </Button>
         )}
       </header>
       <section className="h-1/2">
