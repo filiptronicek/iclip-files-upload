@@ -2,7 +2,7 @@ import "tailwindcss/tailwind.css";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
-export default function Upload() {
+export default function HomePage() {
   const filesEndpoint = "https://files.interclip.app";
 
   const [showOverlay, setShowOverlay] = useState(false);
@@ -10,7 +10,7 @@ export default function Upload() {
   const [fileURL, setFileURL] = useState(filesEndpoint);
   const [code, setCode] = useState("iosxd");
 
-  const uploadPhoto = async (e) => {
+  const uploadFile = async (e) => {
     const file = e?.dataTransfer?.files[0] || e.target.files[0];
     const filename = encodeURIComponent(file.name);
     const fileType = encodeURIComponent(file.type);
@@ -45,7 +45,7 @@ export default function Upload() {
   // reset counter and append file to gallery when file is dropped
   const dropHandler = (e) => {
     e.preventDefault();
-    uploadPhoto(e);
+    uploadFile(e);
     setShowOverlay(false);
   };
 
@@ -110,7 +110,7 @@ export default function Upload() {
                       <input
                         id="hidden-input"
                         type="file"
-                        onChange={uploadPhoto}
+                        onChange={uploadFile}
                         className="hidden"
                       />
                       <button
