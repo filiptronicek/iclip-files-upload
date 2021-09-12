@@ -1,3 +1,5 @@
+import 'tailwindcss/tailwind.css';
+
 export default function Upload() {
   const uploadPhoto = async (e) => {
     const file = e.target.files[0];
@@ -23,12 +25,12 @@ export default function Upload() {
   };
 
   return (
-    <>
-      <p>Upload a .png or .jpg image (max 1GB).</p>
+    <main className="flex flex-col justify-center items-center h-screen">
+      <p className="text-4xl">Interclip files</p>
       <input
         onChange={uploadPhoto}
         type="file"
       />
-    </>
+    </main>
   );
 }
