@@ -1,7 +1,9 @@
 import aws from "aws-sdk";
 import { v4 as uuidv4 } from "uuid";
+import { getSession } from "next-auth/react"
 
 export default async function handler(req, res) {
+  const session = await getSession({ req })
   const { file, fileType } = req.query;
 
   aws.config.update({
@@ -27,7 +29,7 @@ export default async function handler(req, res) {
       [
         "content-length-range",
         0,
-        8.59e9, // up to 1 GiB
+        session ? 8.59e9 : 8.59e6, // up to 1 GiB
       ],
     ],
   });
