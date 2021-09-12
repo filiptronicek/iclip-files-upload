@@ -76,19 +76,31 @@ export default function HomePage() {
     setShowOverlay(true);
   };
 
+  const ProfileCard = () => {
+    return (
+      <div className="w-full">
+        <span className="font-bold">{session.user.name || ""}</span> <br />
+        <span className="text-gray-500">{session.user.email || ""}</span>
+        <Button
+          color="success"
+          className="bg-transparent font-semibold hover:text-white py-2 px-4 border hover:border-transparent rounded"
+          onClick={() => signOut()}
+          auto
+        >
+          Log out
+        </Button>
+      </div>
+    );
+  };
+
   return (
     <main className="flex flex-col justify-between items-center h-screen bg-[#157EFB] text-white">
-      <header className="flex justify-between items-center w-screen max-w-screen gap-4 px-4 mt-4">
+      <header className="flex justify-between items-center w-screen max-w-screen gap-4 px-8 mt-4">
         <h1 className="text-4xl font-bold">Interclip files</h1>
         {session ? (
           <>
             <div className="flex flex-row mx-4 gap-4 items-center justify-center">
-              <Tooltip
-                position="bottom"
-                text={`Signed in as: ${
-                  session.user.name || session.user.email
-                }`}
-              >
+              <Tooltip position="left" text={<ProfileCard />}>
                 <Avatar
                   size="large"
                   src={session.user.image}
@@ -96,14 +108,6 @@ export default function HomePage() {
                   bordered
                 />
               </Tooltip>
-              <Button
-                color="success"
-                className="bg-transparent font-semibold hover:text-white py-2 px-4 border hover:border-transparent rounded"
-                onClick={() => signOut()}
-                auto
-              >
-                Log out
-              </Button>
             </div>
           </>
         ) : (
