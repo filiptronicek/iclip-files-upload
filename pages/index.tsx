@@ -1,6 +1,8 @@
 import "tailwindcss/tailwind.css";
-import { useState, ChangeEvent } from "react";
+import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+
+import uploadFile from "../lib/uploadFile";
 
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -13,44 +15,10 @@ export default function HomePage() {
   const [fileURL, setFileURL] = useState(filesEndpoint);
   const [code, setCode] = useState("iosxd");
 
-  const getInterclipCode = async (url: string) => {
-    const response = await fetch(`https://interclip.app/api/set?url=${url}`);
-    const data = await response.json();
-    setCode(data.result);
-  };
-
-  const uploadFile = async (e: any | ChangeEvent<HTMLInputElement>): Promise<void> => {
-    const file = e?.dataTransfer?.files[0] || e.target.files[0];
-    const filename = encodeURIComponent(file.name);
-    const fileType = encodeURIComponent(file.type);
-    const res = await fetch(
-      `/api/upload-url?file=${filename}&fileType=${fileType}`
-    );
-    const { url, fields } = await res.json();
-    const formData = new FormData();
-    Object.entries({ ...fields, file }).forEach(([key, value] : [string, string | Blob]) => {
-      formData.append(key, value);
-    });
-    const upload = await fetch(url, {
-      method: "POST",
-      body: formData,
-    });
-
-    if (upload.ok) {
-      toast.success("File uploaded successfully!");
-      const url = `${filesEndpoint}/${fields.key}`;
-      setFileURL(url);
-      await getInterclipCode(url);
-      setUploaded(true);
-    } else {
-      toast.error("Upload failed.");
-    }
-  };
-
   // reset counter and append file to gallery when file is dropped
   const dropHandler = (e: any) => {
     e.preventDefault();
-    uploadFile(e);
+    uploadFile(filesEndpoint, toast, setFileURL, setUploaded, setCode, e);
     setShowOverlay(false);
   };
 
@@ -116,14 +84,15 @@ export default function HomePage() {
                         <input
                           id="hidden-input"
                           type="file"
-                          onChange={uploadFile}
+                          onChange={(e) => {uploadFile(filesEndpoint, toast, setFileURL, setUploaded, setCode, e)}}
                           className="hidden"
                         />
                         <button
                           id="button"
                           className="mt-2 rounded-xl px-3 py-1 bg-[#157EFB] hover:bg-[#5DA5FB] focus:shadow-outline focus:outline-none"
                           onClick={() => {
-                            window && document.getElementById("hidden-input").click();
+                            window &&
+                              document.getElementById("hidden-input").click();
                           }}
                         >
                           Upload a file
