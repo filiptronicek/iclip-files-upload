@@ -9,15 +9,16 @@ export default async function handler(req, res) {
   });
 
   const ep = new aws.Endpoint(`s3.${process.env.REGION}.wasabisys.com`);
-  const s3 = new aws.S3({endpoint: ep});
+  const s3 = new aws.S3({ endpoint: ep });
   const post = s3.createPresignedPost({
     Bucket: process.env.BUCKET_NAME,
     Fields: {
       key: req.query.file,
+      "Content-Type": req.query.fileType
     },
     Expires: 60,
     Conditions: [
-      ['content-length-range', 0, 1048576], // up to 1 MB
+      ['content-length-range', 0, 8.59e9], // up to 1 GiB
     ],
   });
 

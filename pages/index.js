@@ -2,7 +2,8 @@ export default function Upload() {
   const uploadPhoto = async (e) => {
     const file = e.target.files[0];
     const filename = encodeURIComponent(file.name);
-    const res = await fetch(`/api/upload-url?file=${filename}`);
+    const fileType = encodeURIComponent(file.type);
+    const res = await fetch(`/api/upload-url?file=${filename}&fileType=${fileType}`);
     const { url, fields } = await res.json();
     const formData = new FormData();
 
@@ -24,11 +25,10 @@ export default function Upload() {
 
   return (
     <>
-      <p>Upload a .png or .jpg image (max 1MB).</p>
+      <p>Upload a .png or .jpg image (max 1GB).</p>
       <input
         onChange={uploadPhoto}
         type="file"
-        accept="image/png, image/jpeg"
       />
     </>
   );
