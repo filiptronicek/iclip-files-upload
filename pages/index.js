@@ -6,7 +6,6 @@ export default function Upload() {
     const res = await fetch(`/api/upload-url?file=${filename}&fileType=${fileType}`);
     const { url, fields } = await res.json();
     const formData = new FormData();
-
     Object.entries({ ...fields, file }).forEach(([key, value]) => {
       formData.append(key, value);
     });
