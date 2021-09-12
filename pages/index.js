@@ -73,10 +73,9 @@ export default function HomePage() {
   };
 
   return (
-    <main className="flex flex-col justify-center items-center h-screen">
+    <main className="flex flex-col justify-center items-center h-screen bg-[#157EFB] text-white">
       <Toaster />
-      <p className="text-4xl">Interclip files</p>
-      <div className="bg-gray-500 h-1/2 w-screen sm:px-8 md:px-16 sm:py-8">
+      <div className="bg-[#005AC7] h-1/2 w-screen sm:px-8 md:px-16 sm:py-8">
         <main className="container mx-auto max-w-screen-lg h-full">
           {!uploaded ? (
             <article
@@ -107,8 +106,11 @@ export default function HomePage() {
                 </div>
               )}
 
-              <section className="h-full overflow-auto p-8 w-full h-full flex flex-col">
-                <header className="border-dashed border-2 h-full border-gray-400 py-12 flex flex-col justify-center items-center">
+              <section className="overflow-auto p-8 w-full h-full flex flex-col">
+                <h1 className="text-4xl text-black text-center mb-4">
+                  Interclip files
+                </h1>
+                <header className="border-dashed border-2 h-full border-[#157EFB] py-12 flex flex-col justify-center items-center">
                   {!showOverlay && (
                     <>
                       <p className="mb-3 font-semibold text-gray-900 flex flex-wrap justify-center">
@@ -123,7 +125,7 @@ export default function HomePage() {
                       />
                       <button
                         id="button"
-                        className="mt-2 rounded-sm px-3 py-1 bg-gray-200 hover:bg-gray-300 focus:shadow-outline focus:outline-none"
+                        className="mt-2 rounded-xl px-3 py-1 bg-[#157EFB] hover:bg-[#5DA5FB] focus:shadow-outline focus:outline-none"
                       >
                         Upload a file
                       </button>
@@ -134,7 +136,7 @@ export default function HomePage() {
             </article>
           ) : (
             <article className="relative h-full flex flex-col bg-white shadow-xl rounded-md">
-              <section className="h-full overflow-auto p-8 w-full h-full flex flex-col">
+              <section className="h-full overflow-auto p-8 w-full flex flex-col">
                 <header className="border-solid border-2 h-full border-gray-400 py-12 flex flex-col justify-center items-center">
                   <p className="mb-3 font-semibold text-gray-900 text-2xl flex flex-wrap justify-center">
                     <span>Your file has been uploaded to</span>
@@ -164,6 +166,15 @@ export default function HomePage() {
                       </a>
                     </span>
                   </p>
+                  <button
+                    className="mt-2 rounded-xl px-3 py-1 bg-[#157EFB] hover:bg-[#5DA5FB] focus:shadow-outline focus:outline-none"
+                    onClick={() => {
+                      setUploaded(false);
+                      setShowOverlay(false);
+                    }}
+                  >
+                    Upload a new file
+                  </button>
                 </header>
               </section>
             </article>
