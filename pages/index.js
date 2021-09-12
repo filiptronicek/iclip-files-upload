@@ -10,6 +10,12 @@ export default function HomePage() {
   const [fileURL, setFileURL] = useState(filesEndpoint);
   const [code, setCode] = useState("iosxd");
 
+  const getInterclipCode = async (url) => {
+    const response = await fetch(`https://interclip.app/api/set?url=${url}`);
+    const data = await response.json();
+    setCode(data.result);
+  };
+
   const uploadFile = async (e) => {
     const file = e?.dataTransfer?.files[0] || e.target.files[0];
     const filename = encodeURIComponent(file.name);
@@ -29,8 +35,10 @@ export default function HomePage() {
 
     if (upload.ok) {
       toast.success("File uploaded successfully!");
+      const url = `${filesEndpoint}/${fields.key}`;
+      setFileURL(url);
+      await getInterclipCode(url);
       setUploaded(true);
-      setFileURL(`${filesEndpoint}/${fields.key}`);
     } else {
       toast.error("Upload failed.");
     }
@@ -148,7 +156,7 @@ export default function HomePage() {
                   <p className="mb-3 font-semibold text-gray-900 text-3xl flex flex-wrap justify-center">
                     <span>
                       <a
-                        href={`$https://interclip.app/{code}`}
+                        href={`https://interclip.app/${code}`}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
