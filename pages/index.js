@@ -1,5 +1,5 @@
 import "tailwindcss/tailwind.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { Button, Avatar, Tooltip } from "@nextui-org/react";
@@ -48,12 +48,6 @@ export default function HomePage() {
     }
   };
 
-  if (typeof window !== "undefined") {
-    if (!setShowOverlay) {
-      document.getElementById("button").onclick = () =>
-        document.getElementById("hidden-input").click();
-    }
-  }
   // reset counter and append file to gallery when file is dropped
   const dropHandler = (e) => {
     e.preventDefault();
@@ -171,6 +165,9 @@ export default function HomePage() {
                         <button
                           id="button"
                           className="mt-2 rounded-xl px-3 py-1 bg-[#157EFB] hover:bg-[#5DA5FB] focus:shadow-outline focus:outline-none"
+                          onClick={() => {
+                            window && document.getElementById("hidden-input").click();
+                          }}
                         >
                           Upload a file
                         </button>
