@@ -15,6 +15,7 @@
     "@aws-cdk/core": "1.71.0",
     "aws-sdk": "^2.783.0",
     "next": "^11.1.2",
+    "next-auth": "4.0.0-beta.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-hot-toast": "^2.1.1",
