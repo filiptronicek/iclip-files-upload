@@ -1,5 +1,5 @@
 import "tailwindcss/tailwind.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent, DragEventHandler } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { Button, Avatar, Tooltip } from "@nextui-org/react";
@@ -14,13 +14,13 @@ export default function HomePage() {
   const [fileURL, setFileURL] = useState(filesEndpoint);
   const [code, setCode] = useState("iosxd");
 
-  const getInterclipCode = async (url) => {
+  const getInterclipCode = async (url: string) => {
     const response = await fetch(`https://interclip.app/api/set?url=${url}`);
     const data = await response.json();
     setCode(data.result);
   };
 
-  const uploadFile = async (e) => {
+  const uploadFile = async (e: any | ChangeEvent<HTMLInputElement>): Promise<void> => {
     const file = e?.dataTransfer?.files[0] || e.target.files[0];
     const filename = encodeURIComponent(file.name);
     const fileType = encodeURIComponent(file.type);
@@ -49,23 +49,23 @@ export default function HomePage() {
   };
 
   // reset counter and append file to gallery when file is dropped
-  const dropHandler = (e) => {
+  const dropHandler = (e: Event) => {
     e.preventDefault();
     uploadFile(e);
     setShowOverlay(false);
   };
 
   // only react to actual files being dragged
-  const dragEnterHandler = (e) => {
+  const dragEnterHandler = (e: Event) => {
     e.preventDefault();
     setShowOverlay(true);
   };
 
-  const dragLeaveHandler = (_e) => {
+  const dragLeaveHandler = (_e: Event) => {
     setShowOverlay(false);
   };
 
-  const dragOverHandler = (e) => {
+  const dragOverHandler = (e: Event) => {
     e.preventDefault();
     setShowOverlay(true);
   };
