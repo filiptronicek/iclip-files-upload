@@ -1,8 +1,12 @@
 import "tailwindcss/tailwind.css";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { useSession, signIn, signOut } from "next-auth/react";
+import { Button, Avatar, Tooltip } from "@nextui-org/react";
 
 export default function HomePage() {
+  const { data: session } = useSession();
+
   const filesEndpoint = "https://files.interclip.app";
 
   const [showOverlay, setShowOverlay] = useState(false);
@@ -74,6 +78,43 @@ export default function HomePage() {
 
   return (
     <main className="flex flex-col justify-center items-center h-screen bg-[#157EFB] text-white">
+      <header className="flex justify-between items-center w-screen max-w-screen gap-4">
+        <h1 className="text-4xl font-bold">Interclip files</h1>
+        {session ? (
+          <>
+            <div className="flex flex-row mx-4 gap-4 items-center justify-center">
+              <Tooltip
+                text={`Signed in as: ${
+                  session.user.name || session.user.email
+                }`}
+              >
+                <Avatar
+                  size="large"
+                  src={session.user.image}
+                  color="error"
+                  bordered
+                />
+              </Tooltip>
+              <Button
+                color="warning"
+                className="bg-transparent font-semibold hover:text-white py-2 px-4 border hover:border-transparent rounded"
+                onClick={() => signOut()}
+                bordered
+                auto
+              >
+                Log out
+              </Button>
+            </div>
+          </>
+        ) : (
+          <button
+            className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+            onClick={() => signIn()}
+          >
+            Sign in
+          </button>
+        )}
+      </header>
       <Toaster />
       <div className="bg-[#005AC7] h-1/2 w-screen sm:px-8 md:px-16 sm:py-8">
         <main className="container mx-auto max-w-screen-lg h-full">
@@ -107,9 +148,6 @@ export default function HomePage() {
               )}
 
               <section className="overflow-auto p-8 w-full h-full flex flex-col">
-                <h1 className="text-4xl text-black text-center mb-4">
-                  Interclip files
-                </h1>
                 <header className="border-dashed border-2 h-full border-[#157EFB] py-12 flex flex-col justify-center items-center">
                   {!showOverlay && (
                     <>
