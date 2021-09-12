@@ -1,12 +1,11 @@
 import "tailwindcss/tailwind.css";
-import { useState, useEffect, ChangeEvent, DragEventHandler } from "react";
+import { useState, ChangeEvent } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { useSession, signIn, signOut } from "next-auth/react";
-import { Button, Avatar, Tooltip } from "@nextui-org/react";
+
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 export default function HomePage() {
-  const { data: session } = useSession();
-
   const filesEndpoint = "https://files.interclip.app";
 
   const [showOverlay, setShowOverlay] = useState(false);
@@ -70,51 +69,9 @@ export default function HomePage() {
     setShowOverlay(true);
   };
 
-  const ProfileCard = () => {
-    return (
-      <div className="w-full">
-        <span className="font-bold">{session.user.name || ""}</span> <br />
-        <span className="text-gray-500">{session.user.email || ""}</span>
-        <Button
-          color="success"
-          className="bg-transparent font-semibold hover:text-white py-2 px-4 border hover:border-transparent rounded"
-          onClick={() => signOut()}
-          auto
-        >
-          Log out
-        </Button>
-      </div>
-    );
-  };
-
   return (
     <main className="flex flex-col justify-between items-center h-screen bg-[#157EFB] text-white">
-      <header className="flex justify-between items-center w-screen max-w-screen gap-4 px-8 mt-4">
-        <h1 className="text-4xl font-bold">Interclip files</h1>
-        {session ? (
-          <>
-            <div className="flex flex-row mx-4 gap-4 items-center justify-center">
-              <Tooltip position="left" text={<ProfileCard />}>
-                <Avatar
-                  size="large"
-                  src={session.user.image}
-                  color="error"
-                  bordered
-                />
-              </Tooltip>
-            </div>
-          </>
-        ) : (
-          <Button
-            color="success"
-            auto
-            className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-            onClick={() => signIn()}
-          >
-            Log in
-          </Button>
-        )}
-      </header>
+      <Header />
       <section className="h-1/2">
         <Toaster />
         <div className="bg-[#005AC7] h-full w-screen sm:px-8 md:px-16 sm:py-8">
@@ -224,26 +181,7 @@ export default function HomePage() {
           </main>
         </div>
       </section>
-      <footer>
-        <div className="container mx-auto max-w-screen-lg h-full">
-          <div className="flex flex-col items-center justify-center">
-            <p className="text-white text-center text-sm">
-              Made with{" "}
-              <span role="img" aria-label="heart">
-                ❤️
-              </span>{" "}
-              by{" "}
-              <a
-                href="https://github.com/filiptronicek"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                @filiptronicek
-              </a>
-            </p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </main>
   );
 }
