@@ -291,9 +291,9 @@
   integrity sha512-Ux5qXzgvnC7V44gWs2tsanYMQvF8aX7Q7uLsWI+mXuDCqqzbkTfVSjN68zGPEx6p7YyPobCKbEC18f7WlvhqPQ==
 
 "@nextui-org/react@^1.0.1-alpha.30":
-  version "1.0.1-alpha.31"
-  resolved "https://registry.yarnpkg.com/@nextui-org/react/-/react-1.0.1-alpha.31.tgz#701f0707a7c653bc63b8df388e3e749a6fe0c539"
-  integrity sha512-fsbRq85wuBEOVnSbYyWfaoJ8jufjf+54eojdBFhDc6M3I3TswZwS6rkh4Hqy5kX2WEjKqPILCnWHHNd5cI7/Uw==
+  version "1.0.1-alpha.32"
+  resolved "https://registry.yarnpkg.com/@nextui-org/react/-/react-1.0.1-alpha.32.tgz#d71412d346d67897bd422d7c91b0aff77294cb48"
+  integrity sha512-NwmdGOIBc5unfWJGPR7o/q5gq/uCCsOpTfdLysVhaM1VEKrfYBJgDAOLLl3vKhiX+hIIM3iZaVTxKTI2REgMyw==
   dependencies:
     styled-jsx "^3.4.4"
 
