@@ -9,11 +9,14 @@ const uploadFile = async (
   setFileURL: Dispatch<SetStateAction<string>>,
   setUploaded: Dispatch<SetStateAction<boolean>>,
   setCode: Dispatch<SetStateAction<string>>,
+  setLoading: Dispatch<SetStateAction<boolean>>,
   e: any | ChangeEvent<HTMLInputElement>
 ): Promise<void> => {
   const file = e?.dataTransfer?.files[0] || e.target.files[0];
   const filename = encodeURIComponent(file.name);
   const fileType = encodeURIComponent(file.type);
+
+  setLoading(true);
 
   const res = await fetch(
     `/api/upload-url?file=${filename}&fileType=${fileType}`
@@ -54,6 +57,7 @@ const uploadFile = async (
         toast.error("Upload failed.");
     }
   }
+  setLoading(false);
 };
 
 export default uploadFile;

@@ -1,6 +1,7 @@
 import "tailwindcss/tailwind.css";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { Loading } from "@nextui-org/react";
 
 import uploadFile from "../lib/uploadFile";
 
@@ -12,13 +13,22 @@ export default function HomePage() {
 
   const [showOverlay, setShowOverlay] = useState(false);
   const [uploaded, setUploaded] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [fileURL, setFileURL] = useState(filesEndpoint);
   const [code, setCode] = useState("iosxd");
 
   // reset counter and append file to gallery when file is dropped
   const dropHandler = (e: any) => {
     e.preventDefault();
-    uploadFile(filesEndpoint, toast, setFileURL, setUploaded, setCode, e);
+    uploadFile(
+      filesEndpoint,
+      toast,
+      setFileURL,
+      setUploaded,
+      setCode,
+      setLoading,
+      e
+    );
     setShowOverlay(false);
   };
 
@@ -77,26 +87,48 @@ export default function HomePage() {
                   <header className="border-dashed border-2 h-full border-[#157EFB] py-12 flex flex-col justify-center items-center">
                     {!showOverlay && (
                       <>
-                        <p className="mb-3 font-semibold text-gray-900 flex flex-wrap justify-center">
-                          <span>Drag and drop your</span>&nbsp;
-                          <span>file anywhere or</span>
-                        </p>
-                        <input
-                          id="hidden-input"
-                          type="file"
-                          onChange={(e) => {uploadFile(filesEndpoint, toast, setFileURL, setUploaded, setCode, e)}}
-                          className="hidden"
-                        />
-                        <button
-                          id="button"
-                          className="mt-2 rounded-xl px-3 py-1 bg-[#157EFB] hover:bg-[#5DA5FB] focus:shadow-outline focus:outline-none"
-                          onClick={() => {
-                            window &&
-                              document.getElementById("hidden-input").click();
-                          }}
-                        >
-                          Upload a file
-                        </button>
+                        {loading ? (
+                          <p className="mb-3 font-semibold text-gray-900 flex flex-col justify-center gap-8">
+                            <span>Uploading your file...</span>
+                            <Loading />
+                          </p>
+                        ) : (
+                          <>
+                            <p className="mb-3 font-semibold text-gray-900 flex flex-wrap justify-center">
+                              <span>Drag and drop your</span>&nbsp;
+                              <span>file anywhere or</span>
+                            </p>
+
+                            <input
+                              id="hidden-input"
+                              type="file"
+                              onChange={(e) => {
+                                uploadFile(
+                                  filesEndpoint,
+                                  toast,
+                                  setFileURL,
+                                  setUploaded,
+                                  setCode,
+                                  setLoading,
+                                  e
+                                );
+                              }}
+                              className="hidden"
+                            />
+                            <button
+                              id="button"
+                              className="mt-2 rounded-xl px-3 py-1 bg-[#157EFB] hover:bg-[#5DA5FB] focus:shadow-outline focus:outline-none"
+                              onClick={() => {
+                                window &&
+                                  document
+                                    .getElementById("hidden-input")
+                                    .click();
+                              }}
+                            >
+                              Upload a file
+                            </button>
+                          </>
+                        )}
                       </>
                     )}
                   </header>
