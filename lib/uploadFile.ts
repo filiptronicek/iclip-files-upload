@@ -1,5 +1,7 @@
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
 import getInterclipCode from "./getCode";
+import { convertXML } from "simple-xml-to-json";
+import formatBytes from "./formatBytes";
 
 const uploadFile = async (
   filesEndpoint: string,
@@ -12,6 +14,7 @@ const uploadFile = async (
   const file = e?.dataTransfer?.files[0] || e.target.files[0];
   const filename = encodeURIComponent(file.name);
   const fileType = encodeURIComponent(file.type);
+
   const res = await fetch(
     `/api/upload-url?file=${filename}&fileType=${fileType}`
   );
@@ -34,7 +37,22 @@ const uploadFile = async (
     await getInterclipCode(url, setCode);
     setUploaded(true);
   } else {
-    toast.error("Upload failed.");
+    const plainText = await upload.text();
+    const json = convertXML(plainText);
+    const erorrMsg = json.Error.children[0].Code.content;
+
+    switch (erorrMsg) {
+      case "EntityTooLarge":
+        const fileSize = json.Error.children[2].ProposedSize.content;
+
+        toast.error(
+          `File too large (${formatBytes(fileSize)})`
+        );
+        break;
+      default:
+        console.log(erorrMsg);
+        toast.error("Upload failed.");
+    }
   }
 };
 

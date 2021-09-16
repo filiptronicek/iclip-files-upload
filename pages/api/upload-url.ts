@@ -16,6 +16,9 @@ export default async function handler(req, res) {
   const ep = new aws.Endpoint(`s3.${process.env.REGION}.wasabisys.com`);
   const s3 = new aws.S3({ endpoint: ep });
   const fileExt = file.split(".").pop();
+
+  const fileSizeLimit = session ? 1e10 : 1e8; // up to 10 GB if authenthicated
+
   const post = s3.createPresignedPost({
     Bucket: process.env.BUCKET_NAME,
     Fields: {
@@ -28,10 +31,11 @@ export default async function handler(req, res) {
       [
         "content-length-range",
         0,
-        session ? 8.59e9 : 8.59e6, // up to 1 GiB
+        fileSizeLimit
       ],
     ],
   });
 
+  console.log(session ? "Authed" : "Unauthed");
   res.status(200).json(post);
 }
